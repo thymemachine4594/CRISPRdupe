@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom"
+import QuestionContainer from "../components/QuestionContainer"
+import { diagnosisFlow } from "../data/diagnosisQuestions"
 
 export default function DiagnosisStep2() {
   const navigate = useNavigate()
 
-  return (
-    <div className="page-center">
-      <h2>Basic Symptoms2</h2>
+  const handleNext = (answers) => {
+    console.log("Step 2 Answers:", answers)
+    navigate("/diagnosis/3")
+  }
 
-      <button
-        className="glow-btn"
-        onClick={() => navigate("/diagnosis/3")}
-      >
-        Next
-      </button>
-    </div>
+  return (
+    <QuestionContainer
+      questions={diagnosisFlow.step2}
+      onNext={handleNext}
+    />
   )
 }
