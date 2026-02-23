@@ -63,17 +63,26 @@ emissiveIntensity={0.8}
 
 
 export default function DNAHelixScene() {
-return (
-<Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
-<ambientLight intensity={0.5} />
-<pointLight position={[10, 10, 10]} intensity={1.5} />
+  return (
+    <div style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      inset: 0,
+      width: "100vw",
+      height: "100vh",
+      zIndex: 0,          // KEY FIX
+      pointerEvents: "none" // Prevent blocking clicks
+    }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} />
 
-
-{/* Multiple criss-cross helices */}
-<Helix position={[-3, 0, 0]} rotationSpeed={0.008} />
-<Helix position={[3, 0, 0]} rotationSpeed={0.008} />
-<Helix position={[-3, 0, 0]} rotationSpeed={0.012} />
-<Helix position={[3, 0.1, 0]} rotationSpeed={0.012} />
-</Canvas>
-)
+        <Helix position={[-3, 0, 0]} rotationSpeed={0.008} />
+        <Helix position={[3, 0, 0]} rotationSpeed={0.008} />
+        <Helix position={[-3, 0, 0]} rotationSpeed={0.012} />
+        <Helix position={[3, 0.1, 0]} rotationSpeed={0.012} />
+      </Canvas>
+    </div>
+  )
 }

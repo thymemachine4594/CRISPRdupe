@@ -1,22 +1,14 @@
 body {
-margin: 0;
-font-family: 'Inter', 'Segoe UI', sans-serif;
-background: #141312; /* Ivory */
-overflow: hidden;
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #141312;   /* keep your theme color */
+  overflow: hidden;
 }
-
 
 .login-container {
 width: 100vw;
 height: 100vh;
 position: relative;
-}
-
-
-canvas {
-position: absolute !important;
-top: 0;
-left: 0;
 }
 
 
@@ -43,4 +35,60 @@ background: linear-gradient(90deg, #6a00ff, #00eaff);
 .login-overlay p {
 font-size: 1.1rem;
 opacity: 0.8;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 20;
+}
+
+.glow-btn {
+  background: linear-gradient(90deg,#00eaff,#6a00ff);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00eaff;
+  transition: 0.3s;
+}
+
+.glow-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #6a00ff;
+}
+
+.page-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: white;
+  text-align: center;
+  z-index: 10;
+}
+
+.auth-box {
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: rgba(0,0,0,0.6);
+  padding: 40px;
+  border-radius: 20px;
+}
+
+.circle svg {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+.page-wrapper {
+  position: relative;
+  z-index: 10;
 }
