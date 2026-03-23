@@ -2,82 +2,116 @@ export const diagnosisFlow = {
   step1: [
     {
       id: "q1",
-      question: "How long have you experienced symptoms?",
+      question: "Do you experience recurrent unexplained severe pain, especially in bones, chest, or joints?",
       options: [
-        "Less than a week",
-        "1-4 weeks",
-        "1-3 months",
-        "More than 3 months"
+        "Yes",
+        "No",
       ]
     },
     {
       id: "q2",
-      question: "Do you experience fatigue?",
-      options: ["Never", "Sometimes", "Often", "Always"]
+      question: "Do you frequently feel persistent fatigue or weakness even with adequate rest?",
+      options: [
+        "Yes",
+        "No",
+      ]
     },
     {
       id: "q3",
-      question: "Do you have a fever?",
-      options: ["No", "Mild", "High", "Recurring"]
+      question: "Have you noticed yellowing of your eyes or skin (jaundice)?",
+      options: [
+        "Yes",
+        "No",
+      ]
     },
     {
       id: "q4",
-      question: "Are symptoms worsening?",
-      options: ["No", "Slowly", "Rapidly", "Fluctuating"]
+      question: "Do you experience shortness of breath during mild physical activity?",
+      options: [
+        "Yes",
+        "No",
+      ]
     },
     {
       id: "q5",
-      question: "Family history of similar condition?",
-      options: ["No", "Unsure", "Yes - distant", "Yes - immediate"]
+      question: "Have you had persistent numbness or tingling in your hands or feet?",
+      options: [
+        "Yes",
+        "No",
+      ]
     },
     {
       id: "q6",
-      question: "Pain intensity level?",
-      options: ["Low", "Moderate", "High", "Severe"]
+      question: "Did you have very poor vision since infancy or early childhood?",
+      options: ["Yes","No",]
     }
   ],
   step2: [
     {
       id: "q7",
-      question:"question1",
-      options: ["option 1","option 2","option 3","option 4",]
+      question:"Do your pain episodes come in sudden attacks/crises, sometimes triggered by cold,dehydration, stress, or infection?",
+      options: ["Yes","No", ]
     },
     {
       id: "q8",
-      question:"question2",
-      options: ["option 1","option 2","option 3","option 4",]
+      question:"Have you ever been told you have low hemoglobin or chronic anemia?",
+      options: [
+        "Yes",
+        "No",
+      ]
     },
     {
       id: "q9",
-      question:"question3",
-      options:["option 1","option 2","option 3","option 4",]
+      question:"Do you experience frequent infections, especially since childhood?",
+      options: ["Yes","No",]
     },
     {
       id: "q10",
-      question:"question4",
-      options:["option 1","option 2","option 3","option 4",]
+      question:"Do you feel abdominal fullness or pain on the left side under the ribs?",
+      options: ["Yes","No",]
     },
-  ],
-   step3: [
     {
       id: "q11",
-      question:"question1",
-      options: ["option 1","option 2","option 3","option 4",]
+      question:"Have you ever required blood transfusions?",
+      options: ["Yes","No",]
     },
     {
       id: "q12",
-      question:"question2",
-      options: ["option 1","option 2","option 3","option 4",]
+      question:"Have doctors ever mentioned an enlarged spleen?",
+      options: ["Yes","No",]
     },
+  ],
+   step3:
+    [
     {
       id: "q13",
-      question:"question3",
-      options:["option 1","option 2","option 3","option 4",]
+      question:"Have you ever had chest pain with fever and breathing difficulty during a pain episode?",
+      options: ["Yes","No",]
     },
     {
       id: "q14",
-      question:"question4",
-      options:["option 1","option 2","option 3","option 4",]
+      question:"Have you experienced leg ulcers that are slow to heal?",
+      options: ["Yes","No",]
+    },
+    {
+      id: "q15",
+      question:"Have you had delayed growth or delayed puberty compared to peers?",
+      options: ["Yes","No",]
+    },
+    {
+      id: "q16",
+      question:"Do pain episodes sometimes require hospital admission or strong pain medication?",
+      options: ["Yes","No",]
+    },
+    {
+      id: "q17",
+      question:"Have you ever had dark-coloured urine during pain episodes?",
+      options: ["Yes","No",]
+    },
+    {
+      id: "q18",
+      question:"Has anyone in your family been diagnosed with a blood disorder?",
+      options: ["Yes","No",]
     },
   ]
 }
