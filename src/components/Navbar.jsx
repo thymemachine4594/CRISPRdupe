@@ -12,7 +12,7 @@ export default function Navbar() {
       <div className="nav-right">
         {user ? (
           <>
-            <span className="username">Hi {user.name}</span>
+            <span className="username">Hi {user.name}  </span>
             <button
               className="glow-btn"
               onClick={() => {
