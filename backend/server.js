@@ -14,6 +14,8 @@ const crisprRoutes = require("./routes/crispr")
 app.use("/api/auth", authRoutes)
 app.use("/api/crispr", crisprRoutes)
 
+app.get("/api/ping", (req, res) => res.json({ pong: true }))
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err))
