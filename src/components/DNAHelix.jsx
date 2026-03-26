@@ -79,7 +79,7 @@ export default function DNAHelixScene() {
         <pointLight position={[10, 10, 10]} intensity={1.5} />
 
         <Helix position={[-3, 0, 0]} rotationSpeed={0.008} />
-        <Helix position={[3, 0, 0]} rotationSpeed={0.008} />
+        <Helix position={[3, 0.1, 0]} rotationSpeed={0.008} />
         <Helix position={[-3, 0, 0]} rotationSpeed={0.012} />
         <Helix position={[3, 0.1, 0]} rotationSpeed={0.012} />
       </Canvas>
