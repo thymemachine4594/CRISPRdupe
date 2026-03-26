@@ -181,40 +181,55 @@ export function CrisprRecommendation({ percentage, threshold = 70, loading = fal
 
         <text
           x="90"
-          y="85"
-          textAnchor="middle"
-          fill="#ffffff"
-          fontSize="14"
-          fontWeight="700"
-        >
-          CRISPR
-        </text>
-        <text
-          x="90"
-          y="115"
+          y="95"
           textAnchor="middle"
           fill={statusColor}
-          fontSize="28"
+          fontSize="36"
           fontWeight="800"
+          style={{ transition: "all 0.5s ease" }}
         >
           {Math.round(animatedValue)}%
         </text>
+        <text
+          x="90"
+          y="120"
+          textAnchor="middle"
+          fill="#94a3b8"
+          fontSize="10"
+          fontWeight="600"
+          style={{ textTransform: "uppercase", letterSpacing: "1px" }}
+        >
+          RELEVANCE
+        </text>
       </svg>
 
-      <p
+      <div
         style={{
-          marginTop: "12px",
-          color: isRecommended ? "#22c55e" : "#ef4444",
-          fontSize: "16px",
+          marginTop: "16px",
+          padding: "8px 20px",
+          borderRadius: "30px",
+          backgroundColor: `${statusColor}15`,
+          border: `1px solid ${statusColor}33`,
+          color: statusColor,
+          fontSize: "14px",
           fontWeight: "700",
           textAlign: "center",
-          maxWidth: "200px",
           textTransform: "uppercase",
-          letterSpacing: "0.5px"
+          letterSpacing: "1px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px"
         }}
       >
+        <span style={{
+          width: "8px",
+          height: "8px",
+          borderRadius: "50%",
+          backgroundColor: statusColor,
+          boxShadow: `0 0 8px ${statusColor}`
+        }} />
         {isRecommended ? "CRISPR Recommended" : "CRISPR Not Recommended"}
-      </p>
+      </div>
       <p style={{ color: "#9ca3af", fontSize: "12px", marginTop: "4px" }}>
         Suitability Threshold: {threshold}%
       </p>

@@ -169,7 +169,7 @@ export default function Result() {
             <CircularResult data={chartData} />
           </div>
 
-          {/* RIGHT — CRISPR recommendation (Calculated) */}
+          {/* CRISPR recommendation (Calculated) */}
           <div
             style={{
               background: "rgba(255,255,255,0.03)",
@@ -177,10 +177,11 @@ export default function Result() {
               borderRadius: "20px",
               display: "flex",
               flexDirection: "column",
-              gap: "20px",
+              gap: "24px",
+              minHeight: "450px"
             }}
           >
-            <div style={{ alignSelf: "center" }}>
+            <div style={{ alignSelf: "center", marginBottom: "10px" }}>
               <CrisprRecommendation
                 percentage={crisprData?.highestScore || 0}
                 loading={loading}
@@ -188,40 +189,60 @@ export default function Result() {
               />
             </div>
 
-            {/* Scrollable Sources */}
-            {crisprData && crisprData.allSources.length > 0 && (
-              <div
-                style={{
-                  flex: 1,
-                  background: "rgba(0,0,0,0.2)",
-                  padding: "16px",
-                  borderRadius: "12px",
-                  maxHeight: "220px",
-                  overflowY: "auto",
-                  border: "1px solid rgba(255,255,255,0.05)"
-                }}
-              >
-                <h4 style={{ color: "#22c55e", marginBottom: "10px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "1px" }}>
-                  Supporting Evidence
+            <div
+              style={{
+                flex: 1,
+                background: "rgba(0,0,0,0.3)",
+                padding: "20px",
+                borderRadius: "16px",
+                maxHeight: "260px",
+                overflowY: "auto",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "inset 0 2px 10px rgba(0,0,0,0.2)"
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <h4 style={{ color: "#22c55e", fontSize: "12px", textTransform: "uppercase", letterSpacing: "1.5px", margin: 0 }}>
+                  Evidence Database
                 </h4>
-                {crisprData.allSources.map((record, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      padding: "10px",
-                      borderBottom: i < crisprData.allSources.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
-                      fontSize: "13px"
-                    }}
-                  >
-                    <div style={{ color: "#fff", fontWeight: "600" }}>{record.source}</div>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
-                      <span style={{ color: "#9ca3af" }}>{record.source_type}</span>
-                      <span style={{ color: "#fff", fontWeight: "700" }}>{record.importance_score}%</span>
-                    </div>
-                  </div>
-                ))}
+                <span style={{ fontSize: "10px", color: "#64748b", fontWeight: "600" }}>
+                  {crisprData?.allSources?.length || 0} RECORDS FOUND
+                </span>
               </div>
-            )}
+
+              {!crisprData && !loading ? (
+                <div style={{ textAlign: "center", padding: "40px 0", color: "#64748b" }}>
+                  <p style={{ fontSize: "13px" }}>Awaiting Connection to Database...</p>
+                  <p style={{ fontSize: "11px", marginTop: "8px" }}>Please ensure local server (port 5000) is running.</p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {crisprData?.allSources.map((record, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        padding: "12px",
+                        background: "rgba(255,255,255,0.02)",
+                        borderRadius: "10px",
+                        border: "1px solid rgba(255,255,255,0.03)",
+                        fontSize: "13px"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
+                        <span style={{ color: "#fff", fontWeight: "600", maxWidth: "80%" }}>{record.source}</span>
+                        <span style={{ color: "#22c55e", fontWeight: "800", background: "rgba(34,197,94,0.1)", padding: "2px 6px", borderRadius: "4px", fontSize: "11px" }}>
+                          {record.importance_score}%
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", color: "#94a3b8", fontSize: "11px" }}>
+                        <span>{record.source_type}</span>
+                        <span style={{ opacity: 0.6 }}>{record.doi ? `DOI: ${record.doi.substring(0, 15)}...` : "N/A"}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
