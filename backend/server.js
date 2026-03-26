@@ -9,7 +9,10 @@ app.use(cors())
 app.use(express.json())
 
 const authRoutes = require("./routes/auth")
+const crisprRoutes = require("./routes/crispr")
+
 app.use("/api/auth", authRoutes)
+app.use("/api/crispr", crisprRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))

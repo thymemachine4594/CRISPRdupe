@@ -124,7 +124,7 @@ export function CircularResult({ data }) {
   )
 }
 
-export function CrisprRecommendation({ percentage }) {
+export function CrisprRecommendation({ percentage, threshold = 70, loading = false }) {
   const [animatedValue, setAnimatedValue] = useState(0)
 
   useEffect(() => {
@@ -138,6 +138,17 @@ export function CrisprRecommendation({ percentage }) {
   const circumference = 2 * Math.PI * radius
   const dash = (animatedValue / 100) * circumference
   const gap = circumference - dash
+
+  const isRecommended = percentage >= threshold
+  const statusColor = isRecommended ? "#22c55e" : "#ef4444" // Green if >= 70, Red if < 70
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "220px", justifyContent: "center" }}>
+        <p style={{ color: "#9ca3af" }}>Calculating CRISPR relevance...</p>
+      </div>
+    )
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -157,51 +168,55 @@ export function CrisprRecommendation({ percentage }) {
             cy="90"
             r={radius}
             fill="transparent"
-            stroke="#22c55e"
+            stroke={statusColor}
             strokeWidth="22"
             strokeDasharray={`${dash} ${gap}`}
             strokeLinecap="round"
             style={{
-              filter: "drop-shadow(0 0 12px #22c55e)",
+              filter: `drop-shadow(0 0 12px ${statusColor})`,
               transition: "all 1.2s ease",
             }}
           />
         </g>
 
         <text
-          x="89"
-          y="142"
+          x="90"
+          y="85"
           textAnchor="middle"
           fill="#ffffff"
-          fontSize="16"
+          fontSize="14"
           fontWeight="700"
-          transform="rotate( 90 120 120)"
         >
           CRISPR
         </text>
         <text
-          x="95"
-          y="168"
+          x="90"
+          y="115"
           textAnchor="middle"
-          fill="#22c55e"
-          fontSize="24"
+          fill={statusColor}
+          fontSize="28"
           fontWeight="800"
-          transform="rotate( 90 120 120)"
         >
-          {animatedValue}%
+          {Math.round(animatedValue)}%
         </text>
       </svg>
 
       <p
         style={{
           marginTop: "12px",
-          color: "#9ca3af",
-          fontSize: "14px",
+          color: isRecommended ? "#22c55e" : "#ef4444",
+          fontSize: "16px",
+          fontWeight: "700",
           textAlign: "center",
-          maxWidth: "180px",
+          maxWidth: "200px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px"
         }}
       >
-        Recommended suitability for CRISPR treatment
+        {isRecommended ? "CRISPR Recommended" : "CRISPR Not Recommended"}
+      </p>
+      <p style={{ color: "#9ca3af", fontSize: "12px", marginTop: "4px" }}>
+        Suitability Threshold: {threshold}%
       </p>
     </div>
   )

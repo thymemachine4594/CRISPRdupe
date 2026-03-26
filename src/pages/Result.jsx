@@ -28,6 +28,26 @@ export default function Result() {
   }
 
   const { topDisease, percentages } = diagnosisResult
+  const [crisprData, setCrisprData] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const threshold = 55
+
+  useEffect(() => {
+    if (topDisease) {
+      setLoading(true)
+      fetch(`http://localhost:5000/api/crispr/relevance/${topDisease}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setCrisprData(data)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.error("Score fetch failed:", err)
+          setLoading(false)
+        })
+    }
+  }, [topDisease])
 
   // Build array for CircularResult chart (all four diseases with live percentages)
   const chartData = Object.entries(percentages).map(([name, value]) => ({
@@ -40,7 +60,7 @@ export default function Result() {
     <div
       style={{
         minHeight: "100vh",
-        width: "200%",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -131,7 +151,7 @@ export default function Result() {
             maxWidth: "900px",
             margin: "0 auto",
             gap: "30px",
-            alignItems: "center",
+            alignItems: "stretch",
           }}
         >
           {/* LEFT — disease probability chart */}
@@ -140,6 +160,7 @@ export default function Result() {
               background: "rgba(255,255,255,0.03)",
               padding: "24px",
               borderRadius: "20px",
+              height: "fit-content"
             }}
           >
             <h3 style={{ color: "#fff", marginBottom: "16px" }}>
@@ -148,18 +169,59 @@ export default function Result() {
             <CircularResult data={chartData} />
           </div>
 
-          {/* RIGHT — CRISPR recommendation (placeholder until next task) */}
+          {/* RIGHT — CRISPR recommendation (Calculated) */}
           <div
             style={{
               background: "rgba(255,255,255,0.03)",
               padding: "24px",
               borderRadius: "20px",
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              flexDirection: "column",
+              gap: "20px",
             }}
           >
-            <CrisprRecommendation percentage={topDisease ? 78 : 0} />
+            <div style={{ alignSelf: "center" }}>
+              <CrisprRecommendation
+                percentage={crisprData?.highestScore || 0}
+                loading={loading}
+                threshold={threshold}
+              />
+            </div>
+
+            {/* Scrollable Sources */}
+            {crisprData && crisprData.allSources.length > 0 && (
+              <div
+                style={{
+                  flex: 1,
+                  background: "rgba(0,0,0,0.2)",
+                  padding: "16px",
+                  borderRadius: "12px",
+                  maxHeight: "220px",
+                  overflowY: "auto",
+                  border: "1px solid rgba(255,255,255,0.05)"
+                }}
+              >
+                <h4 style={{ color: "#22c55e", marginBottom: "10px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "1px" }}>
+                  Supporting Evidence
+                </h4>
+                {crisprData.allSources.map((record, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: "10px",
+                      borderBottom: i < crisprData.allSources.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                      fontSize: "13px"
+                    }}
+                  >
+                    <div style={{ color: "#fff", fontWeight: "600" }}>{record.source}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
+                      <span style={{ color: "#9ca3af" }}>{record.source_type}</span>
+                      <span style={{ color: "#fff", fontWeight: "700" }}>{record.importance_score}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

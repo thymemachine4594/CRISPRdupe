@@ -59,7 +59,7 @@ const seedData = async () => {
                 disease_name: "Sickle Cell Anemia",
                 importance_score: 85.5,
                 recommendation: "Recommended",
-                threshold_used: 70,
+                threshold_used: 55,
                 sources_used: [
                     { source: "Nature Medicine", source_type: "NATURE", doi: "10.1038/s41591-023-0123-x" }
                 ]
@@ -68,7 +68,7 @@ const seedData = async () => {
                 disease_name: "Beta Thalassemia",
                 importance_score: 92.0,
                 recommendation: "Recommended",
-                threshold_used: 70,
+                threshold_used: 55,
                 sources_used: [
                     { source: "NEJM", source_type: "LANCET", doi: "10.1056/NEJMoa2031054" }
                 ]
@@ -77,7 +77,7 @@ const seedData = async () => {
                 disease_name: "ATTR",
                 importance_score: 65.0,
                 recommendation: "Not Recommended",
-                threshold_used: 70,
+                threshold_used: 55,
                 sources_used: [
                     { source: "NIH Research", source_type: "NIH", doi: "10.1172/JCI145678" }
                 ]
