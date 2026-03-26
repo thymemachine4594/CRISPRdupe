@@ -124,7 +124,7 @@ export function CircularResult({ data }) {
   )
 }
 
-export function CrisprRecommendation({ percentage, threshold = 70, loading = false }) {
+export function CrisprRecommendation({ percentage, threshold = 55 }) {
   const [animatedValue, setAnimatedValue] = useState(0)
 
   useEffect(() => {
@@ -140,15 +140,7 @@ export function CrisprRecommendation({ percentage, threshold = 70, loading = fal
   const gap = circumference - dash
 
   const isRecommended = percentage >= threshold
-  const statusColor = isRecommended ? "#22c55e" : "#ef4444" // Green if >= 70, Red if < 70
-
-  if (loading) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "220px", justifyContent: "center" }}>
-        <p style={{ color: "#9ca3af" }}>Calculating CRISPR relevance...</p>
-      </div>
-    )
-  }
+  const statusColor = isRecommended ? "#22c55e" : "#ef4444"
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -180,58 +172,39 @@ export function CrisprRecommendation({ percentage, threshold = 70, loading = fal
         </g>
 
         <text
-          x="90"
-          y="95"
+          x="89"
+          y="142"
+          textAnchor="middle"
+          fill="#ffffff"
+          fontSize="16"
+          fontWeight="700"
+          transform="rotate( 90 90 90)"
+        >
+          CRISPR
+        </text>
+        <text
+          x="95"
+          y="168"
           textAnchor="middle"
           fill={statusColor}
-          fontSize="36"
+          fontSize="24"
           fontWeight="800"
-          style={{ transition: "all 0.5s ease" }}
+          transform="rotate( 90 90 90)"
         >
           {Math.round(animatedValue)}%
         </text>
-        <text
-          x="90"
-          y="120"
-          textAnchor="middle"
-          fill="#94a3b8"
-          fontSize="10"
-          fontWeight="600"
-          style={{ textTransform: "uppercase", letterSpacing: "1px" }}
-        >
-          RELEVANCE
-        </text>
       </svg>
 
-      <div
+      <p
         style={{
-          marginTop: "16px",
-          padding: "8px 20px",
-          borderRadius: "30px",
-          backgroundColor: `${statusColor}15`,
-          border: `1px solid ${statusColor}33`,
-          color: statusColor,
+          marginTop: "12px",
+          color: "#9ca3af",
           fontSize: "14px",
-          fontWeight: "700",
           textAlign: "center",
-          textTransform: "uppercase",
-          letterSpacing: "1px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px"
+          maxWidth: "180px",
         }}
       >
-        <span style={{
-          width: "8px",
-          height: "8px",
-          borderRadius: "50%",
-          backgroundColor: statusColor,
-          boxShadow: `0 0 8px ${statusColor}`
-        }} />
-        {isRecommended ? "CRISPR Recommended" : "CRISPR Not Recommended"}
-      </div>
-      <p style={{ color: "#9ca3af", fontSize: "12px", marginTop: "4px" }}>
-        Suitability Threshold: {threshold}%
+        Recommended suitability for CRISPR treatment
       </p>
     </div>
   )
