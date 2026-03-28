@@ -124,7 +124,7 @@ export function CircularResult({ data }) {
   )
 }
 
-export function CrisprRecommendation({ percentage }) {
+export function CrisprRecommendation({ percentage, threshold = 55 }) {
   const [animatedValue, setAnimatedValue] = useState(0)
 
   useEffect(() => {
@@ -138,6 +138,9 @@ export function CrisprRecommendation({ percentage }) {
   const circumference = 2 * Math.PI * radius
   const dash = (animatedValue / 100) * circumference
   const gap = circumference - dash
+
+  const isRecommended = percentage >= threshold
+  const statusColor = isRecommended ? "#22c55e" : "#ef4444"
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -157,12 +160,12 @@ export function CrisprRecommendation({ percentage }) {
             cy="90"
             r={radius}
             fill="transparent"
-            stroke="#22c55e"
+            stroke={statusColor}
             strokeWidth="22"
             strokeDasharray={`${dash} ${gap}`}
             strokeLinecap="round"
             style={{
-              filter: "drop-shadow(0 0 12px #22c55e)",
+              filter: `drop-shadow(0 0 12px ${statusColor})`,
               transition: "all 1.2s ease",
             }}
           />
@@ -175,7 +178,7 @@ export function CrisprRecommendation({ percentage }) {
           fill="#ffffff"
           fontSize="16"
           fontWeight="700"
-          transform="rotate( 90 120 120)"
+          transform="rotate( 90 90 90)"
         >
           CRISPR
         </text>
@@ -183,12 +186,12 @@ export function CrisprRecommendation({ percentage }) {
           x="95"
           y="168"
           textAnchor="middle"
-          fill="#22c55e"
+          fill={statusColor}
           fontSize="24"
           fontWeight="800"
-          transform="rotate( 90 120 120)"
+          transform="rotate( 90 90 90)"
         >
-          {animatedValue}%
+          {Math.round(animatedValue)}%
         </text>
       </svg>
 

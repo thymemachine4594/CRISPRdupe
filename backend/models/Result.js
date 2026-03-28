@@ -20,7 +20,7 @@ const resultSchema = new mongoose.Schema({
     threshold_used: {
         type: Number,
         required: true,
-        default: 70
+        default: 55
     },
     sources_used: [{
         source: String,
