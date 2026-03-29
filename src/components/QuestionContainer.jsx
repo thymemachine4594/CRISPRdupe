@@ -2,12 +2,25 @@ import { useState } from "react"
 
 export default function QuestionContainer({ questions, onNext }) {
   const [answers, setAnswers] = useState({})
+  const [validationMessage, setValidationMessage] = useState("")
 
   const handleSelect = (questionId, option) => {
+    setValidationMessage("")
     setAnswers(prev => ({
       ...prev,
       [questionId]: option
     }))
+  }
+
+  const handleContinue = () => {
+    const unansweredQuestions = questions.filter((question) => !answers[question.id])
+
+    if (unansweredQuestions.length > 0) {
+      setValidationMessage("Please answer all questions before continuing.")
+      return
+    }
+
+    onNext(answers)
   }
 
   return (
@@ -37,9 +50,13 @@ export default function QuestionContainer({ questions, onNext }) {
           </div>
         ))}
 
+        {validationMessage && (
+          <p className="mcq-validation-message">{validationMessage}</p>
+        )}
+
         <button
           className="glow-btn continue-btn"
-          onClick={() => onNext(answers)}
+          onClick={handleContinue}
         >
           Continue
         </button>

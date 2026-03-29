@@ -70,7 +70,7 @@ export function CircularResult({ data }) {
 
         <text
           x="120"
-          y="112"
+          y="115"
           textAnchor="middle"
           fill="#ffffff"
           fontSize="18"
@@ -172,8 +172,8 @@ export function CrisprRecommendation({ percentage, threshold = 55 }) {
         </g>
 
         <text
-          x="89"
-          y="142"
+          x="90"
+          y="85"
           textAnchor="middle"
           fill="#ffffff"
           fontSize="16"
@@ -184,7 +184,7 @@ export function CrisprRecommendation({ percentage, threshold = 55 }) {
         </text>
         <text
           x="95"
-          y="168"
+          y="110"
           textAnchor="middle"
           fill={statusColor}
           fontSize="24"

@@ -4,7 +4,6 @@ import { CircularResult, CrisprRecommendation } from "../components/CircularResu
 import DNAHelix from "../components/DNAHelix"
 import { useDiagnosis } from "../context/DiagnosisContext"
 
-// Chart colours for each disease
 const DISEASE_COLOURS = {
   "Sickle Cell Anemia": "#ef4444",
   "Beta Thalassemia": "#3b82f6",
@@ -21,7 +20,6 @@ export default function Result() {
 
   const threshold = 55
 
-  // Guard: if user navigated here directly without completing the questionnaire
   if (!diagnosisResult) {
     return (
       <div
@@ -42,14 +40,18 @@ export default function Result() {
     )
   }
 
-  const { topDisease, percentages } = diagnosisResult
+  const { topDisease, mostLikelyDisease, percentages } = diagnosisResult
+  const diseaseForCrispr = topDisease || mostLikelyDisease
 
   useEffect(() => {
-    if (!topDisease) return
+    if (!diseaseForCrispr) {
+      setCrisprData(null)
+      return
+    }
 
     setLoading(true)
 
-    fetch(`http://localhost:5000/api/crispr/relevance/${encodeURIComponent(topDisease)}`)
+    fetch(`http://localhost:5000/api/crispr/relevance/${encodeURIComponent(diseaseForCrispr)}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch CRISPR data")
@@ -65,9 +67,8 @@ export default function Result() {
         setCrisprData(null)
         setLoading(false)
       })
-  }, [topDisease])
+  }, [diseaseForCrispr])
 
-  // Build array for CircularResult chart (all four diseases with live percentages)
   const chartData = Object.entries(percentages || {}).map(([name, value]) => ({
     name,
     value,
@@ -78,16 +79,16 @@ export default function Result() {
     <div
       style={{
         minHeight: "100vh",
-        width: "100%",
+        width: "175%",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         position: "relative",
-        overflow: "hidden",
-        padding: "30px",
+        overflowY: "auto",
+        overflowX: "hidden",
+        padding: "110px 30px 30px",
       }}
     >
-      {/* DNA background */}
       <div
         style={{
           position: "absolute",
@@ -100,7 +101,6 @@ export default function Result() {
         <DNAHelix />
       </div>
 
-      {/* Result card */}
       <div
         style={{
           position: "relative",
@@ -126,7 +126,6 @@ export default function Result() {
           Genetic Diagnosis &amp; CRISPR Recommendation
         </h2>
 
-        {/* Suspicion label */}
         <div style={{ textAlign: "center", marginBottom: "28px" }}>
           {topDisease ? (
             <p
@@ -141,38 +140,50 @@ export default function Result() {
                 border: `1px solid ${DISEASE_COLOURS[topDisease] ?? "#fff"}44`,
               }}
             >
-              In suspicion of{" "}
-              <span style={{ textDecoration: "underline" }}>{topDisease}</span>
+              In suspicion of <span style={{ textDecoration: "underline" }}>{topDisease}</span>
             </p>
           ) : (
             <p
               style={{
                 fontSize: "20px",
                 fontWeight: "600",
-                color: "#94a3b8",
-                background: "rgba(255,255,255,0.06)",
+                color: "#7e8b9e",
+                background: "rgba(69, 58, 58, 0.06)",
                 display: "inline-block",
                 padding: "10px 24px",
-                borderRadius: "12px",
+                borderRadius: "10px",
                 border: "1px solid rgba(148,163,184,0.3)",
               }}
             >
-              We recommend seeing a doctor
+              We recommend seeing a doctor.
             </p>
           )}
         </div>
+
+        {!topDisease && diseaseForCrispr && (
+          <p
+            style={{
+              textAlign: "center",
+              color: "#cbd5e1",
+              marginTop: "-10px",
+              marginBottom: "24px",
+              fontSize: "14px",
+            }}
+          >
+            Highest symptom match: {diseaseForCrispr}. CRISPR suitability is shown for this closest match.
+          </p>
+        )}
 
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            maxWidth: "900px",
+            maxWidth: "9000px",
             margin: "0 auto",
             gap: "30px",
             alignItems: "stretch",
           }}
         >
-          {/* LEFT — disease probability chart */}
           <div
             style={{
               background: "rgba(255,255,255,0.03)",
@@ -187,7 +198,6 @@ export default function Result() {
             <CircularResult data={chartData} />
           </div>
 
-          {/* RIGHT — CRISPR recommendation */}
           <div
             style={{
               background: "rgba(255,255,255,0.03)",
@@ -205,6 +215,19 @@ export default function Result() {
                 threshold={threshold}
               />
             </div>
+
+            <p
+              style={{
+                margin: "-8px 0 0",
+                textAlign: "center",
+                color: "#cbd5e1",
+                fontSize: "14px",
+              }}
+            >
+              {diseaseForCrispr
+                ? `CRISPR relevance for ${diseaseForCrispr}`
+                : "CRISPR relevance will appear after assessment"}
+            </p>
 
             <div
               style={{
@@ -256,14 +279,14 @@ export default function Result() {
                 <div style={{ textAlign: "center", padding: "40px 0", color: "#64748b" }}>
                   <p style={{ fontSize: "13px" }}>Awaiting Connection to Database...</p>
                   <p style={{ fontSize: "11px", marginTop: "8px" }}>
-                    Please ensure local server (port 5000) is running.
+                    Please ensure local server on port 5000 is running and the evidence data is seeded.
                   </p>
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {crisprData?.allSources?.map((record, i) => (
+                  {crisprData.allSources.map((record, index) => (
                     <div
-                      key={i}
+                      key={index}
                       style={{
                         padding: "12px",
                         background: "rgba(255,255,255,0.02)",
@@ -317,7 +340,6 @@ export default function Result() {
           </div>
         </div>
 
-        {/* Restart button */}
         <div style={{ textAlign: "center", marginTop: "28px" }}>
           <button className="glow-btn" onClick={() => navigate("/diagnosis/1")}>
             Retake Assessment

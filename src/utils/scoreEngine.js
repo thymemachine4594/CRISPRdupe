@@ -136,16 +136,29 @@ export function computeDiagnosis(answers) {
 
     let topDisease = null
     let topPct = THRESHOLD
+    let mostLikelyDisease = null
+    let mostLikelyPercentage = -1
 
     for (const [disease, pct] of Object.entries(scores)) {
+        if (pct > mostLikelyPercentage) {
+            mostLikelyPercentage = pct
+            mostLikelyDisease = DISEASE_NAMES[disease]
+        }
+
         if (pct > topPct) {
             topPct = pct
             topDisease = DISEASE_NAMES[disease]
         }
     }
 
+    if (mostLikelyPercentage <= 0) {
+        mostLikelyDisease = null
+    }
+
     return {
         topDisease,
+        mostLikelyDisease,
+        mostLikelyPercentage,
         percentages: {
             "Sickle Cell Anemia": scaPct,
             "Beta Thalassemia": btPct,

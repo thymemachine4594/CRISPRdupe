@@ -11,7 +11,9 @@ export default function Auth() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
     const url = isNew
       ? "http://localhost:5000/api/auth/register"
       : "http://localhost:5000/api/auth/login"
@@ -20,9 +22,9 @@ export default function Auth() {
       const res = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password }),
       })
 
       const data = await res.json()
@@ -53,12 +55,14 @@ export default function Auth() {
 
         <div className="auth-toggle">
           <button
+            type="button"
             className={!isNew ? "active" : ""}
             onClick={() => setIsNew(false)}
           >
             Login
           </button>
           <button
+            type="button"
             className={isNew ? "active" : ""}
             onClick={() => setIsNew(true)}
           >
@@ -66,10 +70,10 @@ export default function Auth() {
           </button>
         </div>
 
-        <div className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           {isNew && (
             <div className="input-group">
-              <span className="input-icon">👤</span>
+              <span className="input-icon" aria-hidden="true">User</span>
               <input
                 type="text"
                 placeholder="Full Name"
@@ -80,7 +84,7 @@ export default function Auth() {
           )}
 
           <div className="input-group">
-            <span className="input-icon">✉️</span>
+            <span className="input-icon" aria-hidden="true">Email</span>
             <input
               type="email"
               placeholder="Email Address"
@@ -90,7 +94,7 @@ export default function Auth() {
           </div>
 
           <div className="input-group">
-            <span className="input-icon">🔒</span>
+            <span className="input-icon" aria-hidden="true">Pass</span>
             <input
               type="password"
               placeholder="Password"
@@ -99,10 +103,10 @@ export default function Auth() {
             />
           </div>
 
-          <button className="glow-btn" onClick={handleSubmit}>
+          <button className="glow-btn" type="submit">
             {isNew ? "Create Account" : "Login"}
           </button>
-        </div>
+        </form>
       </div>
     </div>
   )
